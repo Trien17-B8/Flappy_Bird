@@ -36,7 +36,7 @@ export class Ground extends Component {
   public groundWidth2: number;
   public groundWidth3: number;
 
-  public tempStartLocation1 = new Vec3();
+  public tempStartLocation1 = new Vec3(); // Không thay đổi được giá trị gốc. Tạo ra 1 biến tạm thời để thay đổi giá trị
   public tempStartLocation2 = new Vec3();
   public tempStartLocation3 = new Vec3();
 
@@ -49,20 +49,23 @@ export class Ground extends Component {
   }
 
   startUp() {
-    this.groundWidth1 = this.ground1.getComponent(UITransform).width;
+    this.groundWidth1 = this.ground1.getComponent(UITransform).width; // Lấy lại chiều rộng của thuộc tính tại sence
     this.groundWidth2 = this.ground2.getComponent(UITransform).width;
     this.groundWidth3 = this.ground3.getComponent(UITransform).width;
 
+    // Biến tạm để nhớ các vị trí bắt đầu
     this.tempStartLocation1.x = 0;
     this.tempStartLocation2.x = this.groundWidth1;
     this.tempStartLocation3.x = this.groundWidth1 + this.groundWidth2;
 
+    // Sau đó gán lại vị trí
     this.ground1.setPosition(this.tempStartLocation1);
     this.ground2.setPosition(this.tempStartLocation2);
     this.ground3.setPosition(this.tempStartLocation3);
   }
 
   update(deltaTime: number) {
+    // Di chuyển các vị trí lần lượt
     this.gameSpeed = this.gameCtrlSpeed.speed;
 
     this.tempStartLocation1 = this.ground1.position;
@@ -74,11 +77,11 @@ export class Ground extends Component {
     this.tempStartLocation2.x -= this.gameSpeed * deltaTime;
     this.tempStartLocation3.x -= this.gameSpeed * deltaTime;
 
-    const secene = director.getScene();
-    const canvas = secene.getComponentInChildren(Canvas);
+    const secene = director.getScene(); // tham chiếu đến cảnh mà trò chơi đang chạy
+    const canvas = secene.getComponentInChildren(Canvas); // Lấy các node con
 
     if (this.tempStartLocation1.x <= 0 - this.groundWidth1) {
-      this.tempStartLocation1.x = canvas.getComponent(UITransform).width;
+      this.tempStartLocation1.x = canvas.getComponent(UITransform).width; // Chạy đất
     }
 
     if (this.tempStartLocation2.x <= 0 - this.groundWidth2) {
@@ -89,7 +92,7 @@ export class Ground extends Component {
       this.tempStartLocation3.x = canvas.getComponent(UITransform).width;
     }
 
-    this.ground1.setPosition(this.tempStartLocation1);
+    this.ground1.setPosition(this.tempStartLocation1); // Sau khi xoay xong set lại vị trí của đất
     this.ground2.setPosition(this.tempStartLocation2);
     this.ground3.setPosition(this.tempStartLocation3);
   }

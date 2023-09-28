@@ -11,6 +11,7 @@ import {
   Contact2DType,
   Collider2D,
   IPhysics2DContact,
+  Vec3,
 } from "cc";
 const { ccclass, property } = _decorator;
 import { Ground } from "./Ground";
@@ -60,10 +61,23 @@ export class GameCtrl extends Component {
 
   public isOver: boolean;
 
+  /**
+    Vòng đời Life Cycle Callbacks
+    onLoad(): Hàm được gọi đầu tiên
+    onEnable(): 
+    start(): Hàm được gọi kích hoạt lần đầu tiên, thường dùng để khởi tạo một số dữ liệu trạng thái trung gian
+    update(): Hàm update là hàm được dùng để cập nhật hành vi cũng như trạng thái và hướng của đối tượng trước mỗi khung hình hiển thị
+    lateUpdate()
+    onDisable()
+    onDestroy()
+
+   */
+
   onLoad() {
     this.initListener();
     this.results.resestScore();
     this.isOver = true;
+    // this.pipeQueue.reset(); // Hàm này dùng để set vị trí cột vào chính giữa
     director.pause();
   }
 
@@ -98,6 +112,7 @@ export class GameCtrl extends Component {
   // }
 
   startGame() {
+    console.log("startGame()");
     this.results.hideResults();
     director.resume();
   }

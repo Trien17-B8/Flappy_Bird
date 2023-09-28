@@ -38,19 +38,30 @@ export class Pipes extends Component {
 
   isPass: boolean;
 
+  // Di chuyển các đường ống trên màn hình
   onLoad() {
-    this.game = find("GameCtrl").getComponent("GameCtrl");
-    this.pipeSpeed = this.game.pipeSpeed;
+    this.game = find("GameCtrl").getComponent("GameCtrl"); // Tìm thành phần node trong cocos
+    this.pipeSpeed = this.game.pipeSpeed; // Tất cả đều được khai báo ,quản lý tại GameCtrl
     this.initPos();
     this.isPass = false;
   }
 
+  start() {
+    this.initPos();
+  }
+
   initPos() {
+    // Vị trí bắt đầu của các đường ống.
     this.tempStartLocationUp.x =
-      this.topPipe.getComponent(UITransform).width + this.scene.width;
+      this.topPipe.getComponent(UITransform).width + this.scene.width; // Lấy tham chiếu từ thành phần này đến phần tử được gắn node
     this.tempStartLocationDown.x =
       this.topPipe.getComponent(UITransform).width + this.scene.width;
 
+    //Đặt vị trí của 2 cột ngay tại giữa màn hình
+    // this.tempStartLocationUp = new Vec3(0, 0, 0); // Set vị trí của cả 2 cột vào chính giữa
+    // this.tempStartLocationDown = new Vec3(0, 0, 0);
+    // let gap = random(90, 100);
+    // let topHeight = random(0, 450);
     let gap = random(90, 100);
     let topHeight = random(0, 450);
 
@@ -63,6 +74,7 @@ export class Pipes extends Component {
   }
 
   update(deltaTime) {
+    // Di chuyển đường ống trên khung hình
     this.tempSpeed = this.pipeSpeed * deltaTime;
     this.tempStartLocationDown = this.bottomPipe.position;
     this.tempStartLocationUp = this.topPipe.position;
